@@ -1,0 +1,55 @@
+document.body.addEventListener('keyup',(event)=>{
+    playSound(event.code.toLowerCase());
+});
+
+
+document.querySelector('.composer button').addEventListener('click',()=>{
+  let song =  document.querySelector('#input').value;
+    if(song !== ''){
+       let songArray = song.split('');
+       playComposition(songArray)
+    }
+})
+
+
+function playSound(sound){
+    let audioElement = document.querySelector(`#s_${sound}`);
+
+
+    if(audioElement) {
+        audioElement.currentTime = 0;
+        audioElement.play();
+    }
+
+    let keyStyle = document.querySelector(`div[data-key="${sound}"]`);
+
+    setTimeout(()=>{
+        keyStyle.style.transform ='Scale(1)';
+    },230)
+
+    keyStyle.style.transform ='Scale(0.97)';
+
+    keyStyle.classList.add('active');
+
+    setTimeout(()=>{
+        keyStyle.classList.remove('active')
+    }, 170)
+
+}
+
+function playComposition (songArray) {
+    let wait = 0;
+
+    for(let songItem of songArray){
+
+        setTimeout(()=>{
+             playSound(`key${songItem}`)
+             }, wait)
+
+        wait += 200;
+       }
+}
+
+function key (key){
+    playSound(`key${key}`)
+}
